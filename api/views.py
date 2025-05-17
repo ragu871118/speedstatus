@@ -55,7 +55,7 @@ class LocationDataFetchingPageView(TemplateView):
         # return JsonResponse(data)
 
         output = {
-            'location': data,
+            'data': data,
         }
 
         return JsonResponse(output)
