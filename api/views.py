@@ -20,45 +20,6 @@ class HomePageView(TemplateView):
 class LocationDataFetchingPageView(TemplateView):
     def get(self, request, format=None):
         result = Location_feed.objects.filter(~Q(origin_id='')).values()
-
-        # origin_id_list = []
-        # active_list = []
-        # speed_status_list = []
-        # date_datetime_list = []
-
-        # for row in result:
-        #     origin_id = row["origin_id"]
-        #     active = row["active"]
-        #     location_speed = row["location_speed"]
-
-        #     date_datetime = row["date_datetime"]
-        #     telemetry_power_voltage = row["telemetry_power_voltage"]
-        #     telemetry_battery_voltage = row["telemetry_battery_voltage"]
-        #     telemetry_battery_current = row["telemetry_battery_current"]
-
-        #     speed_status = "Unknown"
-
-        #     if active == False:
-        #         speed_status = "Parked"
-        #     elif active == True and location_speed > 0:
-        #         speed_status = "Moving"
-        #     elif active == True and location_speed <= 0:
-        #         speed_status = "Idle"
-
-        #     speed_status_list.append(speed_status)
-
-        #     origin_id_list.append(origin_id)
-        #     active_list.append(active)
-        #     speed_status_list.append(speed_status)
-        #     date_datetime_list.append(date_datetime)
-
-        # data = {
-        #     'origin_id': origin_id_list,
-        #     'active': active_list,
-        #     'speed_status': speed_status_list,
-        #     'date_datetime': date_datetime_list,
-        # }
-
         data = []
 
         for row in result:
@@ -94,7 +55,7 @@ class LocationDataFetchingPageView(TemplateView):
         # return JsonResponse(data)
 
         output = {
-            'result': data,
+            'location': data,
         }
 
         return JsonResponse(output)
