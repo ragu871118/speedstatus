@@ -49,7 +49,7 @@ class LocationDataFetchingPageView(TemplateView):
 
             data.append({
                 'origin_id': origin_id,
-                'active': active,
+                'is_active': active,
                 'speed_status': speed_status,
                 'date_datetime': date_datetime,
             })
