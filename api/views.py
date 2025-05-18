@@ -2,6 +2,7 @@ from django.views.generic import TemplateView
 import requests
 import sys
 import os
+from django.http import HttpResponse
 from django.http import JsonResponse
 import json
 import asyncio
@@ -54,8 +55,9 @@ class LocationDataFetchingPageView(TemplateView):
         # }
         # return JsonResponse(data)
 
-        return JsonResponse(data, safe=False)
-
+        response = HttpResponse(json.dumps(
+            data, indent=4, sort_keys=True, default=str), content_type='application/json')
+        return response
 
 sequence = 0
 
