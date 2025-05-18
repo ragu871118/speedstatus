@@ -42,6 +42,11 @@ class LocationDataFetchingPageView(TemplateView):
             elif active == True and location_speed <= 0:
                 speed_status = "Idle"
 
+            if active == True:
+                active = "Active"
+            else:
+                active = "Inactive"
+
             data.append({
                 'origin_id': origin_id,
                 'active': active,
