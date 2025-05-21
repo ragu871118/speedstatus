@@ -51,6 +51,7 @@ class LocationDataFetchingPageView(TemplateView):
                 'origin_id': origin_id,
                 'is_active': active,
                 'speed_status': speed_status,
+                'power_voltage': telemetry_power_voltage,
                 'date_datetime': date_datetime,
             })
 
