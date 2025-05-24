@@ -34,7 +34,7 @@ DEBUG = True
 
 # ALLOWED_HOSTS = []
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS",
-                          "127.0.0.1,localhost").split(",")
+                          "127.0.0.1,localhost,speedstatus-app-so3ew.ondigitalocean.app").split(",")
 
 # Run this command: gunicorn --worker-tmp-dir /dev/shm cryptocurrency.wsgi
 WSGI_APPLICATION = 'speedstatus.wsgi.application'
