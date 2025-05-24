@@ -70,7 +70,7 @@ class Location_feed(models.Model):
     meta_wsport = models.CharField(max_length=50)
     meta_ecsid = models.CharField(max_length=50)
     meta_tpsq = models.FloatField(default=0)
-    object_id = models.CharField(max_length=50)
+    object_id = models.CharField(max_length=50, primary_key=True)
     object_name = models.CharField(max_length=50)
     object_type = models.CharField(max_length=50)
     trip_start = models.CharField(max_length=50, blank=True, null=True)

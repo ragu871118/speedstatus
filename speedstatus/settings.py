@@ -26,15 +26,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'django-insecure-vk1620zcp@x0zs_-_u9gg!9vncs2xllqzf1mrq9v!o(p9ltsli'
-SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key())
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 # DEBUG = os.getenv("DEBUG", "False") == "True"
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS",
-                          "127.0.0.1,localhost,speedstatus-app-so3ew.ondigitalocean.app").split(",")
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS",
+                          "127.0.0.1,localhost").split(",")
 
 # Run this command: gunicorn --worker-tmp-dir /dev/shm cryptocurrency.wsgi
 WSGI_APPLICATION = 'speedstatus.wsgi.application'
