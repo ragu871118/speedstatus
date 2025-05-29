@@ -14,100 +14,101 @@ from channels.db import database_sync_to_async
 from datetime import datetime
 from django.db.models import Q
 
+
 class DataMapper:
     async def store(self, item):
-        print("==============================================================")
-        print("==============================================================")
-        print("==============================================================")
-        print("==============================================================")
-        print("==============================================================")
-        print(item)
+        # print("==============================================================")
+        # print("==============================================================")
+        # print("==============================================================")
+        # print("==============================================================")
+        # print("==============================================================")
+        # print(item)
         if item is None:
             return
-        
+
         if item.keys() is None:
             return
-        
+
         # https://stackoverflow.com/questions/78146645/django-core-exceptions-synchronousonlyoperation-you-cannot-call-this-from-an-asy
-        print("==============================================================")
+        # print("==============================================================")
         try:
-            print('a')
+            # print('a')
             origin_id = item["origin"]["id"] if "origin" in item.keys(
             ) and "id" in item["origin"].keys() else ""
-            print('b')
+            # print('b')
             origin_name = item["origin"]["name"] if "origin" in item.keys() and "name" in item["origin"].keys(
             ) else ""
-            print('c')
+            # print('c')
             date_datetime = item["date"] if "date" in item.keys(
             ) else ""
-            print('d')
+            # print('d')
             received_datetime = item["received"] if "received" in item.keys(
             ) else ""
-            print('e')
+            # print('e')
             active = item["active"] if "active" in item.keys(
             ) else False
-            print('f')
+            # print('f')
             linked = item["linked"] if "linked" in item.keys(
             ) else ""
-            print('g')
+            # print('g')
             zones = ""
             routes = ""
             state = ""
-            print('h')
+            # print('h')
             location_lon = item["location"]["lon"] if "location" in item.keys() and "lon" in item["location"].keys(
             ) else 0
-            print('i')
+            # print('i')
             location_lat = item["location"]["lat"] if "location" in item.keys() and "lat" in item["location"].keys(
             ) else 0
-            print('j')
+            # print('j')
             location_speed = item["location"]["speed"] if "location" in item.keys() and "speed" in item["location"].keys(
             ) else 0
-            print('k')
+            # print('k')
             location_altitude = item["location"]["altitude"] if "location" in item.keys() and "altitude" in item["location"].keys(
             ) else 0
-            print('l')
+            # print('l')
             location_heading = item["location"]["heading"] if "location" in item.keys() and "heading" in item["location"].keys(
             ) else 0
-            print('m')
+            # print('m')
             location_accuracy = item["location"]["accuracy"] if "location" in item.keys() and "accuracy" in item["location"].keys(
             ) else 0
-            print('n')
+            # print('n')
             location_age = item["location"]["age"] if "location" in item.keys() and "age" in item["location"].keys(
             ) else 0
-            print('o')
+            # print('o')
             location_gc_rd = item["location"]["gc"]["rd"] if "location" in item.keys() and "gc" in item["location"].keys() and item["location"]["gc"] is not None and "rd" in item["location"]["gc"].keys(
             ) else ""
-            print('p')
+            # print('p')
             location_gc_rt = item["location"]["gc"]["rt"] if "location" in item.keys() and "gc" in item["location"].keys() and item["location"]["gc"] is not None and "rt" in item["location"]["gc"].keys(
             ) else ""
-            print('q')
+            # print('q')
             location_gc_sb = item["location"]["gc"]["sb"] if "location" in item.keys() and "gc" in item["location"].keys() and item["location"]["gc"] is not None and "sb" in item["location"]["gc"].keys(
             ) else ""
-            print('r')
+            # print('r')
             location_gc_tw = item["location"]["gc"]["tw"] if "location" in item.keys() and "gc" in item["location"].keys() and item["location"]["gc"] is not None and "tw" in item["location"]["gc"].keys(
             ) else ""
-            print('s')
+            # print('s')
             location_gc_pr = item["location"]["gc"]["pr"] if "location" in item.keys() and "gc" in item["location"].keys() and item["location"]["gc"] is not None and "pr" in item["location"]["gc"].keys(
             ) else ""
-            print('t')
+            # print('t')
             location_gc_ct = item["location"]["gc"]["ct"] if "location" in item.keys() and "gc" in item["location"].keys() and item["location"]["gc"] is not None and "ct" in item["location"]["gc"].keys(
             ) else ""
-            print('u')
+            # print('u')
             location_gc_dc = item["location"]["gc"]["dc"] if "location" in item.keys() and "gc" in item["location"].keys() and item["location"]["gc"] is not None and "dc" in item["location"]["gc"].keys(
             ) else 0
-            print('v')
+            # print('v')
             location_address = item["location"]["address"] if "location" in item.keys() and "gc" in item["location"].keys() and "address" in item["location"].keys(
             ) else ""
-            print('w')
+            # print('w')
             telemetry_priority = item["telemetry"]["priority"] if "telemetry" in item.keys() and "priority" in item["telemetry"].keys(
             ) else 0
-            print('x')
+            # print('x')
             telemetry_eventId = item["telemetry"]["eventId"] if "telemetry" in item.keys() and "eventId" in item["telemetry"].keys(
             ) else 0
-            print('y')
+            # print('y')
             telemetry_ignition = item["telemetry"]["ignition"] if "telemetry" in item.keys() and "ignition" in item["telemetry"].keys(
             ) else 0
-            print('z')
+            # print('z')
             telemetry_moving = item["telemetry"]["moving"] if "telemetry" in item.keys() and "moving" in item["telemetry"].keys(
             ) else 0
             telemetry_motion_start = item["telemetry"]["motion_start"] if "telemetry" in item.keys() and "motion_start" in item["telemetry"].keys(
@@ -287,10 +288,10 @@ class DataMapper:
             obj.trip_lastLat = trip_lastLat
             obj.lastMovement_datetime = lastMovement_datetime
             obj.privacy = privacy
-            
-            print('before')
+
+            # print('before')
             await sync_to_async(obj.save)()
-            print('after')
+            # print('after')
         except Exception as e:
             output = str(e)
             print(e)

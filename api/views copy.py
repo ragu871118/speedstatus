@@ -29,7 +29,7 @@ class LocationDataAllRowsPageView(TemplateView):
 
         for row in result:
             object_name = str(row["object_name"]).strip().upper()
-            object_id = row["object_id"]
+            origin_id = row["origin_id"]
             active = row["active"]
             location_speed = row["location_speed"]
 
@@ -52,16 +52,9 @@ class LocationDataAllRowsPageView(TemplateView):
             else:
                 active = "Inactive"
 
-            item_type = ""
-            if not object_name.startswith('T/'):
-                item_type = "Trailer"
-            else:
-                item_type = "Vehicle"
-
             data.append({
-                'object_id': object_id,
                 'object_name': object_name,
-                "item_type": item_type,
+                'origin_id': origin_id,
                 'is_active': active,
                 'speed_status': speed_status,
                 'power_voltage': telemetry_power_voltage,
@@ -106,7 +99,7 @@ class LocationDataOnlyVehicleRowsPageView(TemplateView):
             # Gavin: correct=========================================================
 
             if not object_name.startswith('T/'):
-                object_id = row["object_id"]
+                origin_id = row["origin_id"]
                 active = row["active"]
                 location_speed = row["location_speed"]
 
@@ -129,16 +122,9 @@ class LocationDataOnlyVehicleRowsPageView(TemplateView):
                 else:
                     active = "Inactive"
 
-                item_type = ""
-                if not object_name.startswith('T/'):
-                    item_type = "Trailer"
-                else:
-                    item_type = "Vehicle"
-
                 data.append({
-                    'object_id': object_id,
                     'object_name': object_name,
-                    "item_type": item_type,
+                    'origin_id': origin_id,
                     'is_active': active,
                     'speed_status': speed_status,
                     'power_voltage': telemetry_power_voltage,
