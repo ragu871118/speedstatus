@@ -53,7 +53,7 @@ class LocationDataAllRowsPageView(TemplateView):
                 active = "Inactive"
 
             item_type = ""
-            if not object_name.startswith('T/'):
+            if object_name.startswith('T/'):
                 item_type = "Trailer"
             else:
                 item_type = "Vehicle"
@@ -130,7 +130,7 @@ class LocationDataOnlyVehicleRowsPageView(TemplateView):
                     active = "Inactive"
 
                 item_type = ""
-                if not object_name.startswith('T/'):
+                if object_name.startswith('T/'):
                     item_type = "Trailer"
                 else:
                     item_type = "Vehicle"
