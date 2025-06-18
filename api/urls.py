@@ -5,6 +5,7 @@ from .views import *
 # http://127.0.0.1:8000/api/fetch-location-data
 # http://127.0.0.1:8000/api/location-data-all-rows
 # http://127.0.0.1:8000/api/location-data-vehicles-only
+# http://127.0.0.1:8000/api/update-driver-name
 
 urlpatterns = [
     path('api/fetch-location-data', ApiFetchPageView.as_view(),
@@ -13,6 +14,8 @@ urlpatterns = [
          name='location-data-all-rows'),
     path('api/location-data-vehicles-only', LocationDataOnlyVehicleRowsPageView.as_view(),
          name='location-data-vehicles-only'),
+    path('api/update-driver-name', UpdateDriverNamePageView.as_view(),
+         name='update-driver-name'),
 ]
 
 # urlpatterns = [

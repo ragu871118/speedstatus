@@ -11,11 +11,14 @@ from .models import *
 # from asgiref.sync import sync_to_async
 from channels.db import database_sync_to_async
 from datetime import datetime
+from django.utils import timezone
 from django.db.models import Q
 
 from .kinesisproapi import KinesisProApi
 from .processor import Processor
 from .datamapper import DataMapper
+
+from asgiref.sync import sync_to_async
 
 
 class HomePageView(TemplateView):
@@ -58,10 +61,13 @@ class LocationDataAllRowsPageView(TemplateView):
             else:
                 item_type = "Vehicle"
 
+            driver_name = ""
+
             data.append({
                 'object_id': object_id,
                 'object_name': object_name,
                 "item_type": item_type,
+                "driver_name": driver_name,
                 'is_active': active,
                 'speed_status': speed_status,
                 'power_voltage': telemetry_power_voltage,
@@ -173,6 +179,64 @@ kinesis_pro_api = KinesisProApi(
 data_mapper = DataMapper()
 processor = Processor(kinesis_pro_api, data_mapper,
                       asset_count, count_per_group)
+
+
+class UpdateDriverNamePageView(TemplateView):
+    async def get(self, request, format=None):
+        # print("*******************************************************")
+        output = "N/A"
+        try:
+            # await processor.poll()
+            # driver_name_update_time = datetime.now()
+            driver_name_update_time = timezone.now()
+            # location_items = await sync_to_async(Location_feed.objects.order_by(
+            #     'driver_name_update_time')[:1])
+            # for location_item in location_items:
+
+            async for location_item in Location_feed.objects.order_by(
+                    'driver_name_update_time')[:5]:
+                object_id = location_item.object_id
+
+                driver_name = ""
+                path = f"entities/assets/{object_id}"
+                headers = {
+                    'x-api-key': kinesis_pro_api_key
+                }
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(f"{kinesis_pro_api_url}/{path}", headers=headers) as response:
+                        # await response.json()
+                        response_data = await response.json()
+                        driver_name = response_data["fields"]["driversname"] if "fields" in response_data.keys(
+                        ) and "driversname" in response_data["fields"].keys() else ""
+
+                obj = await Location_feed.objects.aget(object_id=object_id)
+                obj.driver_name = driver_name
+                obj.driver_name_update_time = driver_name_update_time
+                await sync_to_async(obj.save)()
+            output = "Driver name update was successful"
+        except Exception as e:
+            output = "Driver name update failed"
+
+            output = str(e)
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            # print(exc_type, fname, exc_tb.tb_lineno)
+            output = output + \
+                "{} --- {} --- {}".format(exc_type,
+                                          fname, exc_tb.tb_lineno)
+
+            # print("==========================================================")
+            # print(output)
+            # print("==========================================================")
+
+        # data = {
+        #     'items': [1, 2, 3],
+        #     'count': [5, 9, 4],
+        # }
+
+        data = {'output': output}
+
+        return JsonResponse(data)
 
 
 class ApiFetchPageView(TemplateView):
