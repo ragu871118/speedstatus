@@ -34,6 +34,7 @@ class LocationDataAllRowsPageView(TemplateView):
             object_name = str(row["object_name"]).strip().upper()
             object_id = row["object_id"]
             active = row["active"]
+            driver_name = row["driver_name"]
             location_speed = row["location_speed"]
 
             date_datetime = row["date_datetime"]
@@ -60,8 +61,6 @@ class LocationDataAllRowsPageView(TemplateView):
                 item_type = "Trailer"
             else:
                 item_type = "Vehicle"
-
-            driver_name = ""
 
             data.append({
                 'object_id': object_id,
