@@ -9,7 +9,8 @@ class Location_feed(models.Model):
     date_datetime = models.DateTimeField(blank=True, null=True)
     received_datetime = models.DateTimeField(blank=True, null=True)
     active = models.BooleanField()
-    driver_name = models.CharField(max_length=50, blank=True, null=True)
+    driver_name = models.CharField(
+        max_length=50, blank=True, null=True, default="")
     driver_name_update_time = models.DateTimeField(
         blank=False, null=False, auto_now_add=True)
     # linked_id = models.CharField(max_length=100)

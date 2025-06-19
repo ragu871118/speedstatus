@@ -34,7 +34,7 @@ class LocationDataAllRowsPageView(TemplateView):
             object_name = str(row["object_name"]).strip().upper()
             object_id = row["object_id"]
             active = row["active"]
-            driver_name = row["driver_name"]
+            driver_name = str(row["driver_name"])
             location_speed = row["location_speed"]
 
             date_datetime = row["date_datetime"]
@@ -196,7 +196,12 @@ class UpdateDriverNamePageView(TemplateView):
                     'driver_name_update_time')[:5]:
                 object_id = location_item.object_id
 
-                driver_name = ""
+                # Reset the value
+                obj = await Location_feed.objects.aget(object_id=object_id)
+                obj.driver_name = ""
+                obj.driver_name_update_time = driver_name_update_time
+                await sync_to_async(obj.save)()
+
                 path = f"entities/assets/{object_id}"
                 headers = {
                     'x-api-key': kinesis_pro_api_key
@@ -207,11 +212,13 @@ class UpdateDriverNamePageView(TemplateView):
                         response_data = await response.json()
                         driver_name = response_data["fields"]["driversname"] if "fields" in response_data.keys(
                         ) and "driversname" in response_data["fields"].keys() else ""
+                        driver_name = str(driver_name).strip()
 
-                obj = await Location_feed.objects.aget(object_id=object_id)
-                obj.driver_name = driver_name
-                obj.driver_name_update_time = driver_name_update_time
-                await sync_to_async(obj.save)()
+                        if len(driver_name) > 0:
+                            obj = await Location_feed.objects.aget(object_id=object_id)
+                            obj.driver_name = driver_name
+                            obj.driver_name_update_time = driver_name_update_time
+                            await sync_to_async(obj.save)()
             output = "Driver name update was successful"
         except Exception as e:
             output = "Driver name update failed"
