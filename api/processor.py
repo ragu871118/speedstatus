@@ -20,12 +20,6 @@ class Processor:
 
     async def poll(self):
         for group in self.groups:
-            resp = await self.kinesis_pro_api.get_location_feed(group["sequence"], group["offset"], group["limit"])
-
-            count = resp["count"]
-            sequence = resp["sequence"]
-            items = resp["items"]
-
             # now is a method in datetime module is
             # used to retrieve current data,time
             datetime_object = datetime.now()
@@ -33,9 +27,16 @@ class Processor:
             # printing current minute using minute
             # class
             current_minute = datetime_object.minute
-
             if current_minute == 1:
                 sequence = 0
+            else:
+                sequence = group["sequence"]
+
+            resp = await self.kinesis_pro_api.get_location_feed(sequence, group["offset"], group["limit"])
+
+            count = resp["count"]
+            sequence = resp["sequence"]
+            items = resp["items"]
 
             for item in items:
                 await self.data_mapper.store(item)
