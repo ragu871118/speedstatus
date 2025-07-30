@@ -27,7 +27,7 @@ class Processor:
             # printing current minute using minute
             # class
             current_minute = datetime_object.minute
-            if current_minute == 1:
+            if current_minute == 0:
                 sequence = 0
             else:
                 sequence = group["sequence"]
